@@ -1,6 +1,4 @@
-                                                                    AI AUTOMATION WORKFLOWS
-
-A collection of AI automation systems and workflow experiments built with n8n.
+    AI AUTOMATION WORKFLOWS
 
 This repository documents my progression from learning workflow automation to building more robust, real-world business automation systems involving AI, APIs, data processing, integrations, and human-in-the-loop workflows.
 
@@ -24,7 +22,7 @@ Completed independent automation projects built outside the academy.
 
 These are the main portfolio builds and are documented with their purpose, architecture, implementation, testing, and technical decisions where relevant.
 
-FOCUS AREAS
+    FOCUS AREAS
 
 * AI-powered business automation
 * CRM automation
@@ -37,7 +35,7 @@ FOCUS AREAS
 * Notifications and approval workflows
 * Validation and error handling
 
-TOOLS & TECHNOLOGIES
+      TOOLS & TECHNOLOGIES
 
 * n8n
 * JavaScript
@@ -50,7 +48,7 @@ TOOLS & TECHNOLOGIES
 * CRM platforms
 * Other tools and services as required by individual projects
 
-PROJECT DOCUMENTATION
+      PROJECT DOCUMENTATION
 
 Each substantial project may contain:
 
@@ -61,7 +59,7 @@ screenshots/
 
 The project README explains the problem being solved, workflow architecture, integrations, important logic, testing, and relevant implementation details.
 
-DEVELOPMENT APPROACH
+    DEVELOPMENT APPROACH
 
 My focus is not simply on connecting n8n nodes, but on developing automation systems that are:
 
@@ -73,10 +71,10 @@ My focus is not simply on connecting n8n nodes, but on developing automation sys
 
 As projects become more complex, I progressively introduce validation, error handling, human review, persistence, retries, and other reliability patterns where they are appropriate.
 
-SECURITY
+    SECURITY
 
 Credentials, API keys, tokens, environment variables, and other sensitive information are excluded from this repository.
 
-STATUS
+    STATUS
 
 This repository is actively maintained as I continue building and experimenting with AI automation systems.
