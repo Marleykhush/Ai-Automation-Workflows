@@ -1,10 +1,10 @@
-AI AUTOMATION WORKFLOWS
+                                                                    AI AUTOMATION WORKFLOWS
 
 A collection of AI automation systems and workflow experiments built with n8n.
 
 This repository documents my progression from learning workflow automation to building more robust, real-world business automation systems involving AI, APIs, data processing, integrations, and human-in-the-loop workflows.
 
-REPOSITORY STRUCTURE
+    REPOSITORY STRUCTURE
 
 LIVE-LAB/
 
