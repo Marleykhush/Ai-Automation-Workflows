@@ -10,17 +10,18 @@ Workflows currently being built, tested, or improved.
 
 This is my active automation lab — experiments, prototypes, new ideas, and work-in-progress systems live here before they become completed projects.
 
+PROJECTS/
+
+Completed independent automation projects built outside the academy.
+
+These are the main portfolio builds and are documented with their purpose, architecture, implementation, testing, and technical decisions where relevant.
+
 TECHCRUSH/
 
 Projects and exercises built as part of my TechCrush Academy training.
 
 These represent my foundational work while learning n8n, workflow logic, APIs, AI integrations, data handling, and automation patterns.
 
-PROJECTS/
-
-Completed independent automation projects built outside the academy.
-
-These are the main portfolio builds and are documented with their purpose, architecture, implementation, testing, and technical decisions where relevant.
 
     FOCUS AREAS
 
