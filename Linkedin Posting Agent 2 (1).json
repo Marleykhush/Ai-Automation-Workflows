@@ -1,0 +1,1064 @@
+{
+  "name": "Linkedin Posting Agent 2",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "channel_post"
+        ],
+        "additionalFields": {
+          "download": true,
+          "imageSize": "medium"
+        }
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        -2144,
+        224
+      ],
+      "id": "4672af29-55f9-4f24-b88c-109b9fcd9521",
+      "name": "Telegram Trigger",
+      "webhookId": "5f2c4913-96db-4909-a382-bdab469b5663",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "telegramApi": {
+          "id": "ATd8K05j8BNxJjRK",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a55f3cc0-6081-4970-9e59-16baf995b339",
+                    "leftValue": "={{ Boolean($json.channel_post.caption) && Boolean($json.channel_post.document) }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Text and Image"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a3772387-64ff-457f-9b51-4f8c26b9b580",
+                    "leftValue": "={{ $json.channel_post.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Text "
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1920,
+        224
+      ],
+      "id": "43a08707-27cd-474a-bd62-fb1b8cd7acc3",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are my LinkedIn ghostwriter for a data analyst building a professional presence by documenting the work, practice, discoveries, and progress behind the journey.\n\nYour priority is to make the post sound like **I actually wrote it**, not like an AI writing a LinkedIn post.\n\nI am documenting my journey, but the identity should be **someone actively becoming a better data analyst through real practice**, not someone constantly teaching or trying to look inspirational.\n\n## SOURCE OF TRUTH\n\nMy input is the only source of facts about my experience.\n\nThe input may be:\n\n* A topic or title\n* A short thought\n* A \"Day X\" update\n* A rough explanation\n* A technical concept\n* A personal observation\n* A fuller story or draft\n\nA reference image may accompany the input.\n\n**Do not analyze, interpret, extract, or infer information from the image. Write entirely from the supplied text.**\n\nYou may improve the writing, organization, framing, explanation, and storytelling.\n\nYou may NOT invent:\n\n* Experiences\n* Results\n* Metrics\n* Numbers\n* Timeframes or durations\n* Tools\n* Projects\n* Datasets\n* Achievements\n* Difficulties\n* Emotions\n* Discoveries\n* Outcomes\n* Technical claims\n\nIf the input does not provide a timeframe, do not create one.\n\nIf it says \"Day 15\", preserve Day 15, but do not assume what happened before it or how long the person studied.\n\nIf the input says \"I'm learning Power BI\", do not turn that into \"I mastered Power BI.\"\n\nIf the input is short, make the **writing** better—not the facts bigger.\n\nWhen information is missing, leave it missing rather than guessing.\n\n## VOICE\n\nWrite like a real person documenting their work on LinkedIn.\n\nThe voice should be:\n\n* Conversational\n* Direct\n* Thoughtful\n* Slightly informal\n* Specific\n* Confident without pretending to know everything\n* Professional without sounding corporate\n\nUse first person naturally.\n\nPrefer the rhythm of someone telling a real story:\n\n\"I was working on...\"\n\"I noticed...\"\n\"I didn't expect...\"\n\"What I realized was...\"\n\"After trying it...\"\n\"One thing that stood out to me...\"\n\"I'm beginning to understand...\"\n\nDo not force these phrases; use whatever sounds natural.\n\n### AVOID AI-LINKEDIN LANGUAGE\n\nDo not use:\n\n* \"Here's the thing...\"\n* \"Let me tell you...\"\n* \"In today's fast-paced world...\"\n* \"This was a game changer...\"\n* \"I couldn't believe...\"\n* \"One thing I've learned...\"\n* \"Success isn't about...\"\n* \"The journey isn't...\"\n* \"This reminded me that...\"\n* \"I'm excited to announce...\"\n* \"Thrilled to share...\"\n* \"Don't sleep on this...\"\n* \"Game-changing\"\n* \"Revolutionary\"\n* \"Transformative\"\n\nAlso avoid excessive em dashes, dramatic one-line paragraphs, motivational clichés, fake vulnerability, and overly polished corporate language.\n\nDo not make every sentence short just because it is a LinkedIn post.\n\nNatural writing matters more than a recognizable \"LinkedIn style.\"\n\n## BUILDING / LEARNING JOURNEY\n\nThe post should naturally communicate that I am **doing the work**, not simply consuming information.\n\nWhen supported by the input, show things like:\n\n* What I was practicing\n* What I was trying to understand\n* What I was building\n* What confused me\n* What I discovered\n* What changed in my understanding\n* What I can now do differently\n* What someone else might find useful\n\nDo not force a lesson or breakthrough if the input does not contain one.\n\nA simple update can remain simple.\n\nA technical experience can become a deeper post.\n\nA mistake can become a useful reflection.\n\nA \"Day X\" post can simply document what happened that day.\n\nThe authenticity of the journey is more important than making every post sound profound.\n\n## POST DEVELOPMENT\n\nWhen the input contains a story, preserve its natural progression.\n\nA useful structure is:\n\n**Context → What I was doing → What happened → What I noticed/learned → Why it matters**\n\nBut this is a guide, not a template.\n\nDo not make every post follow the same structure.\n\nWhen the input is a concept rather than a story, explain the concept through my perspective rather than turning it into a textbook article.\n\nWhen the input is very short, use the most interesting interpretation that is **fully supported by the input**.\n\n## THE OPENING\n\nThe first few lines need to earn the reader's attention.\n\nStart with the most interesting **real** part of the input.\n\nPossible approaches:\n\n* An unexpected observation\n* A specific problem\n* A realization\n* A useful distinction\n* A direct statement\n* The actual thing being practiced\n* \"Day X\" when it naturally works\n\nDo not manufacture suspense.\n\nDo not invent a problem just to create a hook.\n\nDo not use generic openings such as:\n\n\"Data is everywhere.\"\n\"Data analytics is the future.\"\n\"Today I want to talk about...\"\n\"Excited to share...\"\n\"Another day, another lesson...\"\n\nThe strongest hook is usually **specificity**, not hype.\n\n## READER VALUE\n\nGive the reader something worth taking away when the input supports it.\n\nThis might be:\n\n* A practical insight\n* A technical distinction\n* A useful way of thinking\n* A mistake to avoid\n* A small lesson from the process\n* A concept explained simply\n* A behind-the-scenes look at real work\n\nDo not manufacture \"value.\"\n\nDo not add unrelated educational information just to make the post longer.\n\nThe reader should feel that they learned something, saw something interesting, or got a genuine glimpse into the work.\n\n## ATTENTION & SHAREABILITY\n\nOptimize for **attention and retention**, not artificial virality.\n\nA strong post should make the right reader want to:\n\n1. Stop scrolling.\n2. Read the next paragraph.\n3. Finish the post.\n4. Remember the idea or the person behind it.\n\nUse specificity, curiosity, narrative progression, and useful insight to achieve this.\n\nDo not use clickbait, exaggerated claims, fake controversy, manufactured vulnerability, or engagement bait.\n\nThe post should be interesting because the **underlying experience or idea is interesting**.\n\n## \"DAY X\" HANDLING\n\nIf the input contains \"Day X\":\n\n* Preserve it naturally.\n* You may use it in the opening or body.\n* Generate #DayX as a hashtag.\n* Do not invent anything about previous or future days.\n* Do not assume what \"Day X\" means beyond being a journey/documentation marker.\n\nIf there is no Day X, do not invent one.\n\n## HASHTAGS\n\nEnd with **exactly 5 hashtags** on their own final line.\n\nHashtags should maximize **relevance and discoverability**, not simply fill space.\n\nChoose hashtags based on the actual content.\n\nUse:\n\n* 1–2 relevant journey/community hashtags when genuinely appropriate.\n* The remaining hashtags should be specific to the actual subject: tool, concept, technique, role, or professional topic.\n\nCommon hashtags I may use include:\n\n#LearnTogether\n#IgniteCohort\n#DataAnalytics\n#Excel\n#VLOOKUP\n#60DaysVisibilityChallenge\n#LearningJourney\n\nDo not automatically reuse them.\n\nIf the input contains \"Day X\", use #DayX rather than a fixed day hashtag.\n\nAvoid generic hashtags such as:\n#Success\n#Motivation\n#Growth\n#Business\n#Entrepreneurship\n#Inspiration\n\nWhen web research is available and useful, research current hashtag/search relevance and choose hashtags that real professionals are likely to search or follow.\n\nDo not claim that any hashtag guarantees reach or virality.\n\nNever create a hashtag from an invented fact.\n\n## LENGTH\n\nAim for **100–400 words**, but only use the space the idea deserves.\n\nDo not stretch a simple thought into a long post.\n\nDo not force a short post to become 300 words.\n\nA useful rule:\n\n**If removing a sentence would remove useful context, keep it. If it only makes the post sound more impressive, remove it.**\n\n## EMOJIS & FORMATTING\n\nUse 0–3 emojis maximum.\n\nOnly use them when they genuinely fit.\n\nAvoid excessive bullet points, excessive headings, decorative symbols, and artificial formatting.\n\nParagraph breaks should make the post easy to read on mobile without making it look mechanically formatted.\n\n## ENDING\n\nDo not force an engagement CTA.\n\nAvoid automatically ending with:\n\n\"What do you think?\"\n\"Thoughts?\"\n\"Have you experienced this?\"\n\nInstead, finish naturally with:\n\n* The actual takeaway\n* A realization\n* A useful observation\n* A genuine question\n* An open loop\n* A statement another learner/professional can relate to\n\nSometimes the strongest ending is simply the final thought.\n\n## FINAL SELF-EDIT\n\nBefore returning the post, silently review it.\n\nRemove anything that:\n\n* Sounds like generic AI-written LinkedIn content\n* Sounds more polished than a real person would naturally write\n* Exaggerates the experience\n* Invents a fact, result, timeframe, or achievement\n* Repeats the same idea\n* Exists only to make the post longer\n* Uses motivational filler\n* Uses a forced hook\n* Uses a forced CTA\n* Makes me sound like an expert when the input does not support it\n\nThen ask yourself:\n\n**\"If I showed this to the person who gave me the raw input, would they say: 'Yes, that's exactly what I meant, and it sounds like me'?\"**\n\nIf not, rewrite it.\n\n## OUTPUT\n\nReturn ONLY the finished LinkedIn post.\n\nNo explanation.\nNo analysis.\nNo preamble.\nNo quotation marks.\nNo meta-commentary.\n\nEnd with exactly 5 relevant hashtags on the final line.\n\n## INPUT\n\n{{ $json.postText }}\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -1248,
+        224
+      ],
+      "id": "0d90892b-8d22-44e4-aa2e-8c1b6fee7044",
+      "name": "AI Agent",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f4844223-b909-4898-b5e0-7145d96d119a",
+              "name": "imageFileId",
+              "value": "={{ $json.channel_post.document.file_id }}",
+              "type": "string"
+            },
+            {
+              "id": "3f6b6fdd-68eb-4575-a878-ae5628929b5c",
+              "name": "postText",
+              "value": "={{ $json.channel_post.caption }}",
+              "type": "string"
+            },
+            {
+              "id": "66c095fa-9b6f-49fb-8055-3574914858e6",
+              "name": "Source",
+              "value": "Image_caption",
+              "type": "string"
+            },
+            {
+              "id": "31e99331-eb28-420e-b8c0-a2ad97e0f901",
+              "name": "Chatid",
+              "value": "={{ $json.channel_post.chat.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -1696,
+        128
+      ],
+      "id": "1d66f04e-ad36-4e15-9902-61a24c686df1",
+      "name": "Clean Data1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fda89665-1830-4e76-ad00-8fd2b80459f4",
+              "name": "postText",
+              "value": "={{ $json.channel_post.text }}",
+              "type": "string"
+            },
+            {
+              "id": "0a1745a0-fff4-4b96-a9e8-e62a47f5cd9c",
+              "name": "Source",
+              "value": "Text_only",
+              "type": "string"
+            },
+            {
+              "id": "0689ed55-28de-471f-ac72-dfd00009e8ed",
+              "name": "Chatid",
+              "value": "={{ $json.channel_post.chat.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -1696,
+        320
+      ],
+      "id": "307751c8-f905-4495-853d-79659b12d2fe",
+      "name": "Clean Data3"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -1168,
+        448
+      ],
+      "id": "47e8aa80-7062-443d-97cf-b901c59cda47",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "nim6pJQ10xJU4aJq",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "chatId": "={{ $json.Chatid }}",
+        "message": "={{ $json.draftText }}",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "chatApproval": true,
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -448,
+        144
+      ],
+      "id": "c6659b5f-2a9c-4e4f-8b68-4991afe60be4",
+      "name": "Send message and wait for response",
+      "webhookId": "79f656cb-b0ed-4348-b102-9d1229cd2e6b",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "executeOnce": false,
+      "credentials": {
+        "telegramApi": {
+          "id": "ATd8K05j8BNxJjRK",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8668040d-1efd-497d-88b3-919a479df5f6",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -224,
+        144
+      ],
+      "id": "815e279f-13f1-4659-872b-e83a196c79f0",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5c1927cb-db6d-4101-b5d9-703e79d2f76f",
+              "name": "draftText",
+              "value": "={{ $json.draftText }}",
+              "type": "string"
+            },
+            {
+              "id": "54177794-5d97-4d8b-bd1d-843ea2d716d2",
+              "name": "Chatid",
+              "value": "={{ $json.Chatid }}",
+              "type": "string"
+            },
+            {
+              "id": "4a06cf03-6b6e-4f01-b72d-09fb82425704",
+              "name": "imageFileId",
+              "value": "={{ $json.imageFileId }}",
+              "type": "string"
+            },
+            {
+              "id": "55485f38-232f-4e6f-a252-7af51b6f83b4",
+              "name": "Source",
+              "value": "={{ $json.Source }}",
+              "type": "string"
+            },
+            {
+              "id": "b4c15174-6a09-4c5d-ba7e-a8a7452d2f51",
+              "name": "postText",
+              "value": "={{ $json.postText }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -672,
+        144
+      ],
+      "id": "abbac2c3-6d4d-4346-9d44-700db58a263c",
+      "name": "Converge node"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c88df1dc-b42d-4fc5-a961-ec6f0604bc97",
+              "name": "imageFileId",
+              "value": "={{ $json.imageFileId }}",
+              "type": "string"
+            },
+            {
+              "id": "37d5ed13-b3da-4dbb-91c1-3849111eac0e",
+              "name": "postText",
+              "value": "={{ $json.postText }}",
+              "type": "string"
+            },
+            {
+              "id": "b8fa36b3-0d2a-4a01-b9a1-bcdaec74e2cf",
+              "name": "Source",
+              "value": "={{ $json.Source }}",
+              "type": "string"
+            },
+            {
+              "id": "16249ee6-8710-4637-89eb-54aced6d46c6",
+              "name": "Chatid",
+              "value": "={{ $json.Chatid }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -1472,
+        224
+      ],
+      "id": "70e8d884-ab74-4978-8c5d-f67c0d367cbd",
+      "name": "LLM input"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bbb007d7-206d-42a5-97d2-a0e562ccde4c",
+              "name": "draftText",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "f4ae7f5e-cb7a-47fe-9632-7fe88f9d8322",
+              "name": "postText",
+              "value": "={{ $('LLM input').item.json.postText }}",
+              "type": "string"
+            },
+            {
+              "id": "a03955db-e947-4e1a-adab-3a22bae10770",
+              "name": "imageFileId",
+              "value": "={{ $('LLM input').item.json.imageFileId }}",
+              "type": "string"
+            },
+            {
+              "id": "fafe1f3a-7da5-43e8-9a9a-e1b40bc1e51f",
+              "name": "Source",
+              "value": "={{ $('LLM input').item.json.Source }}",
+              "type": "string"
+            },
+            {
+              "id": "7c4f04e3-ea6c-4f61-b597-2f11f11b86bc",
+              "name": "Chatid",
+              "value": "={{ $('LLM input').item.json.Chatid }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -896,
+        144
+      ],
+      "id": "de484df0-0be9-457c-ba45-0284c3faba41",
+      "name": "LLM output"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ddcac4fc-2b9d-452e-9eec-d71ada69481c",
+              "leftValue": "={{ $json.imageField }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        0
+      ],
+      "id": "14c5457a-e765-456b-b061-7d738fab85ea",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.imageField }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        448,
+        80
+      ],
+      "id": "2fe90111-d47a-4e81-9922-36fb6b524cbd",
+      "name": "Get a file",
+      "webhookId": "99364f62-4c40-4b2f-852b-8d1f0b30f8f4",
+      "credentials": {
+        "telegramApi": {
+          "id": "ATd8K05j8BNxJjRK",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66dbdde0-e6af-478b-8825-178c4cc3c84d",
+              "name": "draftText",
+              "value": "={{ $('Converge node').item.json.draftText }}",
+              "type": "string"
+            },
+            {
+              "id": "e6914a04-3b4a-4d4a-96e7-c1cb3db28258",
+              "name": "imageField",
+              "value": "={{ $('Converge node').item.json.imageFileId }}",
+              "type": "string"
+            },
+            {
+              "id": "78c7e88e-c9a0-46a6-baea-97551d85f8a1",
+              "name": "Source",
+              "value": "={{ $('Converge node').item.json.Source }}",
+              "type": "string"
+            },
+            {
+              "id": "230c6675-1849-45ef-a4f3-61a559dcc950",
+              "name": "approvalTime",
+              "value": "={{ $('Approved data').item.json.approvalTime }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        672,
+        80
+      ],
+      "id": "8dc65b8a-1d21-4322-b8f0-568ed6044051",
+      "name": "Receive data from converge node"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1CpH5K40oXWQEAkVt4Eur2ZJ202OHO44HN9tx9VXQKgI",
+          "mode": "list",
+          "cachedResultName": "Linkedin Agent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CpH5K40oXWQEAkVt4Eur2ZJ202OHO44HN9tx9VXQKgI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 506023739,
+          "mode": "list",
+          "cachedResultName": "Approved Post 2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CpH5K40oXWQEAkVt4Eur2ZJ202OHO44HN9tx9VXQKgI/edit#gid=506023739"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "imageField": "={{ $('Converge node').item.json.imageFileId }}",
+            "approvalTime": "={{ $('Approved data').item.json.approvalTime }}",
+            "postText": "={{ $('Converge node').item.json.postText }}",
+            "status": "queue",
+            "draftText": "={{ $('Converge node').item.json.draftText }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "postText",
+              "displayName": "postText",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "draftText",
+              "displayName": "draftText",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "imageField",
+              "displayName": "imageField",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "approvalTime",
+              "displayName": "approvalTime",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        896,
+        0
+      ],
+      "id": "40888550-8b35-414b-b1f8-b4211eab36c2",
+      "name": "Update Approved Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "XbEJkdQ7Q4uM6nEQ",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1CpH5K40oXWQEAkVt4Eur2ZJ202OHO44HN9tx9VXQKgI",
+          "mode": "list",
+          "cachedResultName": "Linkedin Agent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CpH5K40oXWQEAkVt4Eur2ZJ202OHO44HN9tx9VXQKgI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1537404282,
+          "mode": "list",
+          "cachedResultName": "Disapproved post 2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CpH5K40oXWQEAkVt4Eur2ZJ202OHO44HN9tx9VXQKgI/edit#gid=1537404282"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "postText": "={{ $json.draftText }}",
+            "imageField": "={{ $json.imageField }}",
+            "Source": "={{ $json.Source }}",
+            "approvalTime": "={{ $json.approvalTime }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "postText",
+              "displayName": "postText",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "imageField",
+              "displayName": "imageField",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Source",
+              "displayName": "Source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "approvalTime",
+              "displayName": "approvalTime",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        192
+      ],
+      "id": "174637be-e1de-40c1-ac38-bdf02f6bc9fb",
+      "name": "Update Disapproved Sheet",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "XbEJkdQ7Q4uM6nEQ",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66dbdde0-e6af-478b-8825-178c4cc3c84d",
+              "name": "draftText",
+              "value": "={{ $('Converge node').item.json.postText }}",
+              "type": "string"
+            },
+            {
+              "id": "e6914a04-3b4a-4d4a-96e7-c1cb3db28258",
+              "name": "imageField",
+              "value": "={{ $('Converge node').item.json.imageFileId }}",
+              "type": "string"
+            },
+            {
+              "id": "78c7e88e-c9a0-46a6-baea-97551d85f8a1",
+              "name": "Source",
+              "value": "={{ $('Converge node').item.json.Source }}",
+              "type": "string"
+            },
+            {
+              "id": "230c6675-1849-45ef-a4f3-61a559dcc950",
+              "name": "approvalTime",
+              "value": "={{ $json.data.respondedAt }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        0,
+        240
+      ],
+      "id": "7c3f8234-ae07-4b06-bb92-f719239853e1",
+      "name": "Disapproved data"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66dbdde0-e6af-478b-8825-178c4cc3c84d",
+              "name": "draftText",
+              "value": "={{ $('Converge node').item.json.draftText }}",
+              "type": "string"
+            },
+            {
+              "id": "e6914a04-3b4a-4d4a-96e7-c1cb3db28258",
+              "name": "imageField",
+              "value": "={{ $('Converge node').item.json.imageFileId }}",
+              "type": "string"
+            },
+            {
+              "id": "78c7e88e-c9a0-46a6-baea-97551d85f8a1",
+              "name": "Source",
+              "value": "={{ $('Converge node').item.json.Source }}",
+              "type": "string"
+            },
+            {
+              "id": "230c6675-1849-45ef-a4f3-61a559dcc950",
+              "name": "approvalTime",
+              "value": "={{ $json.data.respondedAt }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2f097780-7536-4131-bef3-936ca3fd9599",
+      "name": "Approved data"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66dbdde0-e6af-478b-8825-178c4cc3c84d",
+              "name": "postText",
+              "value": "={{ $('Converge node').item.json.postText }}",
+              "type": "string"
+            },
+            {
+              "id": "e6914a04-3b4a-4d4a-96e7-c1cb3db28258",
+              "name": "imageField",
+              "value": "={{ $('Converge node').item.json.imageFileId }}",
+              "type": "string"
+            },
+            {
+              "id": "78c7e88e-c9a0-46a6-baea-97551d85f8a1",
+              "name": "Source",
+              "value": "={{ $('Converge node').item.json.Source }}",
+              "type": "string"
+            },
+            {
+              "id": "230c6675-1849-45ef-a4f3-61a559dcc950",
+              "name": "approvalTime",
+              "value": "={{ $('Converge node').item.json.Chatid }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        416
+      ],
+      "id": "89ac009e-c240-4861-9846-aed0d4b0c620",
+      "name": "Re- LLM input"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Clean Data1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Clean Data3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Data3": {
+      "main": [
+        [
+          {
+            "node": "LLM input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Data1": {
+      "main": [
+        [
+          {
+            "node": "LLM input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "LLM output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send message and wait for response": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Approved data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Disapproved data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Converge node": {
+      "main": [
+        [
+          {
+            "node": "Send message and wait for response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM input": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM output": {
+      "main": [
+        [
+          {
+            "node": "Converge node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Update Approved Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Receive data from converge node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Receive data from converge node": {
+      "main": [
+        [
+          {
+            "node": "Update Approved Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Disapproved data": {
+      "main": [
+        [
+          {
+            "node": "Update Disapproved Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Re- LLM input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approved data": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Re- LLM input": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "MwI2G5HHG7j8jnTm",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "dd2ced51-ea18-4b63-9fef-254031956169",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "391fdfd990535e638c3c802eed0591c49416e5291f6d25c71d937e423f5c2743"
+  },
+  "nodeGroups": [],
+  "id": "ENzcytWKypnP8FpZ",
+  "tags": [
+    {
+      "updatedAt": "2026-09-03T17:59:43.305Z",
+      "createdAt": "2026-09-03T17:59:43.305Z",
+      "id": "2yIhdtGzsFBxWYRk",
+      "name": "Linkedin Agent"
+    }
+  ]
+}

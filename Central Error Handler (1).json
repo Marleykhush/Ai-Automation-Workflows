@@ -1,0 +1,117 @@
+{
+  "name": "Central Error Handler",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d42adb3e-d8b9-4b41-ae25-b43eba01c86d",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dcc18307-efd1-4037-a88f-582a4b2e15a1",
+              "name": "Workflow",
+              "value": "={{ $json.workflow.name }}",
+              "type": "string"
+            },
+            {
+              "id": "b1d8d40a-4242-4ebc-ac7a-685b6efab7f8",
+              "name": "Error message",
+              "value": "={{ $json.execution.error.message }}",
+              "type": "string"
+            },
+            {
+              "id": "a1ec0d38-3c5f-4e50-9aab-adfc4016af9d",
+              "name": "Last Executed node",
+              "value": "={{ $json.execution.lastNodeExecuted }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "b918e9ee-55e1-47bc-a971-7589956cc955",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "chatId": "@linkedininnit",
+        "text": "=You have a broken workflow:{{ $json.Workflow }}\nError message:{{ $json[\"Error message\"] }}\nExecuted node:{{ $json[\"Last Executed node\"] }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "00f8f392-68c6-4014-b12e-0f173d5eeda8",
+      "name": "Send a text message",
+      "webhookId": "5f1aae72-2cb9-4452-a600-e9929f6cc3e6",
+      "credentials": {
+        "telegramApi": {
+          "id": "70N4UjdTlPqOpweq",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "MwI2G5HHG7j8jnTm",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "c788cf1a-50c0-4847-8f54-7be5161ee225",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "391fdfd990535e638c3c802eed0591c49416e5291f6d25c71d937e423f5c2743"
+  },
+  "nodeGroups": [],
+  "id": "MwI2G5HHG7j8jnTm",
+  "tags": []
+}

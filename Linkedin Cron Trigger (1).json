@@ -1,0 +1,454 @@
+{
+  "name": "Linkedin Cron Trigger",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "15 8,19 * * 1-5"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -1120,
+        96
+      ],
+      "id": "083a2fad-955c-4574-897f-dfdb4587ed3b",
+      "name": "Daily Post Trigger",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ddcac4fc-2b9d-452e-9eec-d71ada69481c",
+              "leftValue": "={{ $json.imageField }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -672,
+        96
+      ],
+      "id": "3e9c963f-f565-4b75-b777-3ceeb0d16115",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "person": "WbOwpQ4VUq",
+        "text": "={{ $json.draftText }}",
+        "shareMediaCategory": "IMAGE",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        0,
+        192
+      ],
+      "id": "b4cfd305-5ba7-4a54-bcc3-4ca7a8a7bbe7",
+      "name": "Create a post1",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "EajC3RztMx6aUsRg",
+          "name": "LinkedIn account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1CpH5K40oXWQEAkVt4Eur2ZJ202OHO44HN9tx9VXQKgI",
+          "mode": "list",
+          "cachedResultName": "Linkedin Agent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CpH5K40oXWQEAkVt4Eur2ZJ202OHO44HN9tx9VXQKgI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Approved Posts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CpH5K40oXWQEAkVt4Eur2ZJ202OHO44HN9tx9VXQKgI/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "status",
+              "lookupValue": "queue"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -896,
+        96
+      ],
+      "id": "c8662929-a396-48bd-aec4-2ba55dc609de",
+      "name": "Get Queue data",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "XbEJkdQ7Q4uM6nEQ",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.imageField }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -448,
+        192
+      ],
+      "id": "72ad87c0-dba3-4d1b-80a9-ca9f01953af2",
+      "name": "Download image",
+      "webhookId": "7982242e-4e60-415a-8fe8-d39c9c200a23",
+      "credentials": {
+        "telegramApi": {
+          "id": "70N4UjdTlPqOpweq",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66dbdde0-e6af-478b-8825-178c4cc3c84d",
+              "name": "draftText",
+              "value": "={{ $('Get Queue data').item.json.draftText }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -224,
+        192
+      ],
+      "id": "eb58da1d-a54e-46e0-a13b-edcb1726397f",
+      "name": "Receive data from get queue node"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1CpH5K40oXWQEAkVt4Eur2ZJ202OHO44HN9tx9VXQKgI",
+          "mode": "list",
+          "cachedResultName": "Linkedin Agent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CpH5K40oXWQEAkVt4Eur2ZJ202OHO44HN9tx9VXQKgI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Approved Posts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CpH5K40oXWQEAkVt4Eur2ZJ202OHO44HN9tx9VXQKgI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Get Queue data').item.json.row_number }}",
+            "status": "Posted"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "postText",
+              "displayName": "postText",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "draftText",
+              "displayName": "draftText",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "imageField",
+              "displayName": "imageField",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "approvalTime",
+              "displayName": "approvalTime",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        96
+      ],
+      "id": "ae3fe2b5-cab2-4253-b7e0-79da3d7fd373",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "XbEJkdQ7Q4uM6nEQ",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "@linkedininnit",
+        "text": "Posted Content on Linkedin and Updated Sheet Boss",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        448,
+        96
+      ],
+      "id": "b8691e58-eab7-459f-be41-f9cad5f15d1e",
+      "name": "Send a text message",
+      "webhookId": "448a1789-e96c-4b7f-aaad-058055404337",
+      "credentials": {
+        "telegramApi": {
+          "id": "70N4UjdTlPqOpweq",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "person": "WbOwpQ4VUq",
+        "text": "={{ $json.draftText }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "86864917-9441-4c1c-bbca-9c741ad176c3",
+      "name": "Create a post",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "EajC3RztMx6aUsRg",
+          "name": "LinkedIn account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Daily Post Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Queue data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post1": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Queue data": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download image": {
+      "main": [
+        [
+          {
+            "node": "Receive data from get queue node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Receive data from get queue node": {
+      "main": [
+        [
+          {
+            "node": "Create a post1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "MwI2G5HHG7j8jnTm",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "d1e5d75c-a01e-4ad6-b21d-a2121823b496",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "391fdfd990535e638c3c802eed0591c49416e5291f6d25c71d937e423f5c2743"
+  },
+  "nodeGroups": [],
+  "id": "F3wXf0W21hUN5yZG",
+  "tags": [
+    {
+      "updatedAt": "2026-09-03T17:59:43.305Z",
+      "createdAt": "2026-09-03T17:59:43.305Z",
+      "id": "2yIhdtGzsFBxWYRk",
+      "name": "Linkedin Agent"
+    }
+  ]
+}
